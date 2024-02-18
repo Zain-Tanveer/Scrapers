@@ -42,7 +42,7 @@ class UdemyScraper:
             self.options.add_argument('--disable-gpu')
             self.options.add_argument('--disable-dev-shm-usage')
             self.options.add_argument('--no-sandbox')
-            self.driver = webdriver.Chrome(options=self.options)
+            self.driver = webdriver.Chrome(service=Service('chromedriver'), options=self.options)
         
         def getCourses(self, courseName):
                 self.courseName = courseName.split(' ') 

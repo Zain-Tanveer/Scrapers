@@ -2,15 +2,12 @@
 # pip install beautifulsoup4
 # pip install selenium
 # pip install lxml
-# pip install nltk
-# pip install wget
 
 # pip install fastapi
 # pip install uvicorn (for live server)
 
 from ItJobsAll import ITJobs
 from fastapi import FastAPI, Request
-from NLPSkillFinder import NLPSkillFinder
 from RozeeScraper import RozeeScraper
 from CodeScraper import CodeScraper
 from UdemyScraper import UdemyScraper
@@ -31,14 +28,13 @@ app.add_middleware(
 
 jobs = RozeeScraper()
 courses = CodeScraper()
-nlp = NLPSkillFinder()
 itJobs = ITJobs()
 
-@app.get("/api/jobs") # we will also pass page_no= as query params from frontend
+@app.get("/api/jobs") # we will also pass userInput= and page_no= as query params from frontend
 async def getJobsData(userInput, page_no):
     return jobs.getSinglePageJobsData(userInput, page_no)
 
-@app.get("/api/filteredJobs") # we will also pass page_no= as query params from frontend
+@app.get("/api/filteredJobs") # we will also pass userInput=, page_no=, fkey_id=, and fkey= as query params from frontend
 async def getJobsData(userInput, page_no, fkey_id, fkey):
     return jobs.getFilteredJobsData(userInput, page_no, fkey_id, fkey)
 
@@ -69,11 +65,6 @@ async def getChartsData():
 @app.get("/api/courses")
 async def getCourses(course):
     return courses.getCourses(course)
-
-@app.post("/api/findKeywords")
-async def getKeywords(request: Request):
-    req = await request.json()
-    return nlp.compare_job_skills(req['data'])
 
 @app.get("/api/getAllJobs")
 async def getAllJobs():

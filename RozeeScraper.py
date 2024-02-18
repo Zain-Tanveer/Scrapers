@@ -306,7 +306,6 @@ class RozeeScraper:
         data = json.loads(script)
         
         final_array = []
-        test = []
         
         for facet in data['response']['facets']:
             if not 'id' in facet['data'][0].keys():
@@ -319,23 +318,17 @@ class RozeeScraper:
                 id = facet_data['id']
                 count = str(facet_data['count'])
                 
-                # if id == fkeyid:
-                #     isChecked = 'checked'
-                # else:
-                #     isChecked = ''
-                
                 facet_dict = {
                     'fkey' : fkey,
                     'label' : label,
                     'id' : id,
                     'count' : count,
-                    # 'checked': isChecked
                 }
                 
                 nested_array.append(facet_dict)
             
-            test.append({'title': facet['meta']['blkTitle'],'data' : nested_array})
-        return test
+            final_array.append({'title': facet['meta']['blkTitle'],'data' : nested_array})
+        return final_array
     
     def getFilteredJobsData(self, input, page_no, fkey_id, fkey):
             self.page_no = (int(page_no))
